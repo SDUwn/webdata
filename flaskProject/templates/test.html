@@ -1,0 +1,65 @@
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>数据可视化</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css')}}" />
+  </head>
+  <body>
+      <header>
+          <div class="container">
+            <h1 class="logo">山软数据可视化平台</h1>
+            <strong><nav>
+              <ul class="menu">
+                <li><a href="{{url_for('test')}}">study</a></li>
+                <li><a href="{{url_for('work')}}">work</a></li>
+              </ul>
+            </nav></strong>
+          </div>
+      </header>
+      <div class="navbox">
+      <ul class="nav">
+        <li>
+          <a href="javascript:void(0)" onclick="zju()">浙江大学</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onclick="fudan()">复旦大学</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onclick="ict()">中科院计算所</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onclick="ia()">中科院自动所</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" onclick="shanghaitech()">上海科技大学</a>
+        </li>
+      </ul>
+      </div>
+    <div id="div_x">
+        <iframe height="800" width="1350" src="/graph">
+        </iframe>
+    </div>
+  </body>
+<script>
+    function zju(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/graph\"></iframe>"
+    }
+    function hust(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/hust\"></iframe>"
+    }
+    function ict(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/ict\"></iframe>"
+    }
+    function ia(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/ia\"></iframe>"
+    }
+    function shanghaitech(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/shanghaitech\"></iframe>"
+    }
+    function fudan(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/fudan\"></iframe>"
+    }
+</script>
+</html>

@@ -1,0 +1,234 @@
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>数据可视化</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css')}}" />
+  </head>
+  <style type="text/css">
+        #menu #open .navbox ul li .secondary {
+            overflow: hidden;
+            height: 0;
+            -webkit-transition: all 0.6s ease;
+            -moz-transition: all 0.6s ease;
+            -o-transition: all 0.6s ease;
+            -ms-transition: all 0.6s ease;
+        }
+  </style>
+  <body>
+      <header>
+          <div class="container">
+            <h1 class="logo">山软数据可视化平台</h1>
+            <strong><nav>
+              <ul class="menu">
+                <li><a href="{{url_for('test')}}">study</a></li>
+                <li><a href="{{url_for('work')}}">work</a></li>
+              </ul>
+            </nav></strong>
+          </div>
+      </header>
+  <div id="menu">
+    <!--显示菜单-->
+    <div id="open">
+      <div class="navbox">
+      <ul class="nav">
+          <li>
+              <a href="javascript:void(0)" onclick="all_()">总览</a>
+          </li>
+          <li>
+              <lable class="obtain"><a>职位类型</a></lable>
+                <div class="secondary">
+                    <a href="javascript:void(0)" onclick="anquan()"><h5>安全</h5></a>
+                    <a href="javascript:void(0)" onclick="shuju()"><h5>数据</h5></a>
+                    <a href="javascript:void(0)" onclick="suanfa()"><h5>算法</h5></a>
+                    <a href="javascript:void(0)" onclick="xitong()"><h5>系统</h5></a>
+                    <a href="javascript:void(0)" onclick="houduan()"><h5>后端</h5></a>
+                    <a href="javascript:void(0)" onclick="qianduan()"><h5>前端</h5></a>
+                    <a href="javascript:void(0)" onclick="yunwei()"><h5>运维</h5></a>
+                    <a href="javascript:void(0)" onclick="ceshi()"><h5>测试</h5></a>
+                </div>
+          </li>
+          <li>
+              <lable class="obtain"><a>区域分析</a></lable>
+                <div class="secondary">
+                    <a href="javascript:void(0)" onclick="beijing()"><h5>北京</h5></a>
+                    <a href="javascript:void(0)" onclick="shanghai()"><h5>上海</h5></a>
+                    <a href="javascript:void(0)" onclick="guangzhou()"><h5>广州</h5></a>
+                    <a href="javascript:void(0)" onclick="shenzhen()"><h5>深圳</h5></a>
+                    <a href="javascript:void(0)" onclick="hangzhou()"><h5>杭州</h5></a>
+                    <a href="javascript:void(0)" onclick="suzhou()"><h5>苏州</h5></a>
+                    <a href="javascript:void(0)" onclick="tianjin()"><h5>天津</h5></a>
+                    <a href="javascript:void(0)" onclick="xian()"><h5>西安</h5></a>
+                </div>
+          </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+    <div id="div_x">
+        <iframe height="800" width="1350" src="/all">
+        </iframe>
+    </div>
+  </body>
+<script>
+    window.onload = function () {
+        var flag = true;
+        var liC = document.querySelectorAll(".navbox li .obtain");
+        // 主导航nav点击事件
+        for (var i = 0; i < liC.length; i++) {
+            liC[i].onclick = function () {
+                if (flag) {
+                    // 节流阀
+                    flag = false;
+                    setTimeout(function () {
+                        flag = true;
+                    }, 500)
+                    // 自点
+                    if (this.className === "obFocus") {
+                        this.querySelector("i").classList.remove("arrowRot");
+                        getNext(this).style.height = "0";
+                        this.classList.add("obtain");
+                        this.classList.remove("obFocus");
+                        return
+                    }
+
+                    var sec = getNext(this);
+                    var sib = siblings(sec.parentNode);
+                    var otherArr = [];
+                    var arrowClass = [];
+                    // 排他 secondary arrowRot obFocus
+                    for (var j = 0; j < sib.length; j++) {
+                        var sibSec = sib[j].getElementsByTagName('*');
+                        for (var i = 0; i < sibSec.length; i++) {
+                            if (sibSec[i].className == "secondary") {
+                                otherArr.push(sibSec[i])
+                            }
+                            if (sibSec[i].className == "arrowRot") {
+                                arrowClass.push(sibSec[i])
+                            }
+                            if (sibSec[i].className == "obFocus") {
+                                sibSec[i].classList.remove("obFocus");
+                                sibSec[i].classList.add("obtain");
+
+                            }
+                        }
+                    }
+                    for (var i = 0; i < otherArr.length; i++) {
+                        otherArr[i].style.height = "0";
+                    }
+                    if (arrowClass[0]) {
+                        arrowClass[0].classList.remove("arrowRot");
+                    }
+
+                    // 留自己
+                    sec.style.height = 'auto';
+                    this.getElementsByTagName("i")[0].classList.add("arrowRot");
+                    this.classList.remove("obtain");
+                    this.classList.add("obFocus");
+                }
+
+            }
+        }
+
+        // 子导航点击事件
+        var seconC = document.querySelectorAll(".secondary h5")
+        for (var i = 0; i < seconC.length; i++) {
+            seconC[i].onclick = function () {
+                for (var i = 0; i < seconC.length; i++) {
+                    seconC[i].classList.remove("seconFocus");
+                }
+                this.classList.add("seconFocus");
+            }
+        }
+
+    }
+
+    function getByClass(clsName, parent) {
+        var oParent = parent ? document.getElementById(parent) : document,
+            boxArr = new Array(),
+            oElements = oParent.getElementsByTagName('*');
+        for (var i = 0; i < oElements.length; i++) {
+            if (oElements[i].className == clsName) {
+                boxArr.push(oElements[i]);
+            }
+        }
+        return boxArr;
+    }
+
+    // 获取下一个兄弟元素
+    function getNext(node) {
+        if (!node.nextSibling) return null;
+        var nextNode = node.nextSibling;
+        if (nextNode.nodeType == 1) {
+            return nextNode;
+        }
+        return getNext(node.nextSibling);
+    }
+
+    // 获取除了自己以外的其他亲兄弟元素
+    function siblings(elem) {
+        var r = [];
+        var n = elem.parentNode.firstChild;
+        for (; n; n = n.nextSibling) {
+            if (n.nodeType === 1 && n !== elem) {
+                r.push(n);
+            }
+        }
+        return r;
+    }
+    function all_(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/all\">hhh</iframe>"
+    }
+    function qianduan(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/qianduan\"></iframe>"
+    }
+    function houduan(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/houduan\"></iframe>"
+    }
+    function yunwei(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/yunwei\"></iframe>"
+    }
+    function ceshi(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/ceshi\"></iframe>"
+    }
+    function shuju(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/shuju\"></iframe>"
+    }
+    function suanfa(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/suanfa\"></iframe>"
+    }
+    function xitong(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/xitong\"></iframe>"
+    }
+    function anquan(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/anquan\"></iframe>"
+    }
+
+    function beijing(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/beijing\"></iframe>"
+    }
+    function shanghai(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/shanghai\"></iframe>"
+    }
+    function guangzhou(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/guangzhou\"></iframe>"
+    }
+    function shenzhen(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/shenzhen\"></iframe>"
+    }
+    function hangzhou(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/hangzhou\"></iframe>"
+    }
+    function suzhou(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/suzhou\"></iframe>"
+    }
+    function tianjin(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/tianjin\"></iframe>"
+    }
+    function xian(){
+        document.getElementById('div_x').innerHTML="<iframe height=\"800\" width=\"1350\" src=\"/xian\"></iframe>"
+    }
+</script>
+
+</html>
